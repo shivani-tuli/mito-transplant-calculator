@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mitochondrial Transplantation Metabolic Calculator</title>
+  <meta name="description" content="Back-of-the-envelope metabolic calculations for evaluating mitochondrial transplantation as a strategy to overcome the 200μm diffusion limit in tissue engineering.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Hero Header -->
+  <header id="hero-header">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Metabolic Modeling Tool
+      </div>
+      <h1>Mitochondrial Transplantation<br><span class="gradient-text">Diffusion Limit Calculator</span></h1>
+      <p class="hero-subtitle">
+        Can enhanced mitochondrial efficiency overcome the 200 μm oxygen diffusion barrier in engineered tissue constructs? 
+        Adjust parameters below to model the biophysics.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-value">200 μm</span>
+          <span class="stat-label">Diffusion Limit</span>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-value">~2 mm</span>
+          <span class="stat-label">Target Depth</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Calculator -->
+  <main id="calculator-main">
+    <!-- Section 1: Krogh Model -->
+    <section class="calc-section" id="krogh-section">
+      <div class="section-header">
+        <div class="section-number">01</div>
+        <div>
+          <h2>Krogh Oxygen Diffusion Model</h2>
+          <p class="section-desc">Model oxygen penetration depth as a function of diffusion coefficient, surface concentration, and cellular consumption rate.</p>
+        </div>
+      </div>
+
+      <div class="section-body dual-panel">
+        <!-- Parameters Panel -->
+        <div class="params-panel">
+          <h3>Diffusion & Consumption Parameters</h3>
+
+          <div class="param-group">
+            <label for="cell-type">
+              Cell Type Preset
+              <span class="param-unit">auto-fills OCR</span>
+            </label>
+            <select id="cell-type" class="param-select">
+              <option value="cardiomyocyte">Cardiomyocyte (heart) — 20 amol</option>
+              <option value="hepatocyte">Hepatocyte (liver) — 40 amol</option>
+              <option value="renal">Renal tubular (kidney) — 15 amol</option>
+              <option value="msc">MSC (stem cell) — 5 amol</option>
+              <option value="custom" selected>Custom OCR</option>
+            </select>
+          </div>
+
+          <div class="param-group">
+            <label for="diffusion-coeff">
+              O₂ Diffusion Coefficient (D)
+              <span class="param-unit">× 10⁻⁵ cm²/s</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="diffusion-coeff" min="0.5" max="4.0" step="0.1" value="2.0">
+              <span class="slider-value" id="diffusion-coeff-val">2.0</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">Water @ 37°C: 2.5–3.8</span>
+              <span class="context-tag">Collagen: 0.17–0.45</span>
+              <span class="context-tag">Hydrogel: 1.0–2.5</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label for="surface-o2">
+              Surface O₂ Concentration (C₀)
+              <span class="param-unit">mol/m³</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="surface-o2" min="0.05" max="0.30" step="0.01" value="0.21">
+              <span class="slider-value" id="surface-o2-val">0.21</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">Normoxia (21%): 0.21</span>
+              <span class="context-tag">Physoxia (5%): 0.05</span>
+              <span class="context-tag">Hyperoxia (95%): 0.95</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label for="cell-density">
+              Cell Density (ρ)
+              <span class="param-unit">× 10⁸ cells/mL</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="cell-density" min="0.1" max="10.0" step="0.1" value="6.0">
+              <span class="slider-value" id="cell-density-val">6.0</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">FRESH Bioink: ~6.0</span>
+              <span class="context-tag">Low density: 0.5–1.0</span>
+              <span class="context-tag">Native myocardium: ~10</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label for="ocr-per-cell">
+              O₂ Consumption Rate per Cell (q)
+              <span class="param-unit">amol O₂/cell/s</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="ocr-per-cell" min="1" max="100" step="1" value="25">
+              <span class="slider-value" id="ocr-per-cell-val">25</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">hiPSC-CM: 15–40</span>
+              <span class="context-tag">Fibroblast: 5–15</span>
+              <span class="context-tag">Adult CM: 40–80</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label for="mt-efficiency">
+              Mito-Transplant Efficiency Boost
+              <span class="param-unit">fold improvement</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="mt-efficiency" min="1.0" max="10.0" step="0.1" value="1.0">
+              <span class="slider-value" id="mt-efficiency-val">1.0×</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag highlight">1.0× = No transplant (baseline)</span>
+              <span class="context-tag">Literature: 1.2–2.0×</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="results-panel">
+          <h3>Oxygen Penetration Profile</h3>
+          <div class="chart-container">
+            <canvas id="krogh-chart"></canvas>
+          </div>
+          <div class="result-cards">
+            <div class="result-card" id="penetration-result">
+              <div class="result-icon">📏</div>
+              <div class="result-label">Penetration Depth</div>
+              <div class="result-value" id="penetration-depth-val">—</div>
+              <div class="result-sub" id="penetration-depth-sub"></div>
+            </div>
+            <div class="result-card" id="fold-improvement-result">
+              <div class="result-icon">📈</div>
+              <div class="result-label">Depth Improvement</div>
+              <div class="result-value" id="fold-improvement-val">—</div>
+              <div class="result-sub" id="fold-improvement-sub"></div>
+            </div>
+            <div class="result-card" id="viable-volume-result">
+              <div class="result-icon">🧬</div>
+              <div class="result-label">Viable Volume Fraction</div>
+              <div class="result-value" id="viable-volume-val">—</div>
+              <div class="result-sub" id="viable-volume-sub"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: ATP Budget -->
+    <section class="calc-section" id="atp-section">
+      <div class="section-header">
+        <div class="section-number">02</div>
+        <div>
+          <h2>ATP Budget Analysis</h2>
+          <p class="section-desc">Compare baseline cellular ATP demand vs. production capacity with transplanted mitochondria under varying oxygen conditions.</p>
+        </div>
+      </div>
+
+      <div class="section-body dual-panel">
+        <div class="params-panel">
+          <h3>Bioenergetic Parameters</h3>
+
+          <div class="param-group">
+            <label for="atp-demand">
+              Baseline ATP Demand
+              <span class="param-unit">μmol ATP/min/10⁶ cells</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="atp-demand" min="0.1" max="5.0" step="0.1" value="1.5">
+              <span class="slider-value" id="atp-demand-val">1.5</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">Cardiomyocyte (beating): 2–5</span>
+              <span class="context-tag">Cardiomyocyte (quiescent): 0.5–1.5</span>
+              <span class="context-tag">Fibroblast: 0.2–0.8</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label for="oxphos-efficiency">
+              OXPHOS Efficiency (P/O Ratio)
+              <span class="param-unit">ATP per O atom</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="oxphos-efficiency" min="1.0" max="3.5" step="0.1" value="2.5">
+              <span class="slider-value" id="oxphos-efficiency-val">2.5</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">Theoretical max: 2.5–3.0</span>
+              <span class="context-tag">Damaged mito: 1.0–1.5</span>
+              <span class="context-tag">Post-MT boost: 2.5–3.0</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label for="glycolysis-rate">
+              Glycolytic ATP Capacity
+              <span class="param-unit">% of total demand</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="glycolysis-rate" min="0" max="80" step="1" value="15">
+              <span class="slider-value" id="glycolysis-rate-val">15%</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">Normal CM: 10–20%</span>
+              <span class="context-tag">Hypoxia-adapted: 30–50%</span>
+              <span class="context-tag">iPSC-CM (immature): 40–60%</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label for="local-o2-pct">
+              Local O₂ Availability
+              <span class="param-unit">% of surface</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="local-o2-pct" min="0" max="100" step="1" value="100">
+              <span class="slider-value" id="local-o2-pct-val">100%</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">@ Surface: 100%</span>
+              <span class="context-tag">@ 100μm: ~40%</span>
+              <span class="context-tag">@ 200μm: ~0%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <h3>ATP Supply vs. Demand</h3>
+          <div class="chart-container">
+            <canvas id="atp-chart"></canvas>
+          </div>
+          <div class="result-cards">
+            <div class="result-card" id="atp-supply-result">
+              <div class="result-icon">⚡</div>
+              <div class="result-label">Total ATP Supply</div>
+              <div class="result-value" id="atp-supply-val">—</div>
+              <div class="result-sub" id="atp-supply-sub"></div>
+            </div>
+            <div class="result-card" id="atp-deficit-result">
+              <div class="result-icon">🔋</div>
+              <div class="result-label">ATP Balance</div>
+              <div class="result-value" id="atp-deficit-val">—</div>
+              <div class="result-sub" id="atp-deficit-sub"></div>
+            </div>
+            <div class="result-card" id="viability-result">
+              <div class="result-icon">❤️</div>
+              <div class="result-label">Predicted Viability</div>
+              <div class="result-value" id="viability-val">—</div>
+              <div class="result-sub" id="viability-sub"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Buying Time — Survival vs Vascularization -->
+    <section class="calc-section" id="buying-time-section">
+      <div class="section-header">
+        <div class="section-number">03</div>
+        <div>
+          <h2>Buying Time: Survival vs Vascularization</h2>
+          <p class="section-desc">Can mitochondrial transplantation extend cell survival long enough to bridge the gap until vascular networks establish? This model overlays the cell death curve against the vascularization timeline.</p>
+        </div>
+      </div>
+
+      <div class="section-body dual-panel">
+        <div class="params-panel">
+          <h3>Vascularization & Survival</h3>
+
+          <div class="param-group">
+            <label for="vasc-strategy">
+              Vascularization Strategy
+              <span class="param-unit">timeline to perfusion</span>
+            </label>
+            <select id="vasc-strategy" class="param-select">
+              <option value="prevascularized">Pre-vascularized (inosculation ~2–5 days)</option>
+              <option value="standard" selected>Standard construct (neovascularization ~10–15 days)</option>
+              <option value="growth_factors">Growth factor-enhanced (~7–10 days)</option>
+            </select>
+          </div>
+
+          <div class="param-group">
+            <label for="hypoxia-tolerance">
+              Hypoxia Tolerance
+              <span class="param-unit">hrs at &lt;1% O₂</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="hypoxia-tolerance" min="6" max="96" step="6" value="48">
+              <span class="slider-value" id="hypoxia-tolerance-val">48h</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">MSC: ~48h (Das 2009)</span>
+              <span class="context-tag">CM: ~12–24h</span>
+              <span class="context-tag">Hepatocyte: ~6–12h</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label for="o2-depletion-days">
+              O₂ Depletion Onset
+              <span class="param-unit">days in static 3D culture</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="o2-depletion-days" min="1" max="10" step="0.5" value="5">
+              <span class="slider-value" id="o2-depletion-days-val">5</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">Malda 2008: ~5 days</span>
+              <span class="context-tag">High density: 2–3 days</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <h3>Survival vs Vascularization Race</h3>
+          <div class="chart-container tall-chart">
+            <canvas id="buying-time-chart"></canvas>
+          </div>
+          <div class="result-cards">
+            <div class="result-card" id="base-survival-result">
+              <div class="result-icon">💀</div>
+              <div class="result-label">Baseline Survival</div>
+              <div class="result-value" id="base-survival-val">—</div>
+              <div class="result-sub" id="base-survival-sub"></div>
+            </div>
+            <div class="result-card" id="mt-survival-result">
+              <div class="result-icon">🛡️</div>
+              <div class="result-label">With Mito Transplant</div>
+              <div class="result-value" id="mt-survival-val">—</div>
+              <div class="result-sub" id="mt-survival-sub"></div>
+            </div>
+            <div class="result-card" id="bridge-gap-result">
+              <div class="result-icon">🌉</div>
+              <div class="result-label">Bridges the Gap?</div>
+              <div class="result-value" id="bridge-gap-val">—</div>
+              <div class="result-sub" id="bridge-gap-sub"></div>
+            </div>
+          </div>
+          <div class="buying-time-references">
+            <h4>Literature values</h4>
+            <div class="ref-list">
+              <span><strong>O₂ depletion onset:</strong> ~5 days in static 3D culture (Malda et al., 2008)</span>
+              <span><strong>MSC hypoxia tolerance:</strong> ~48h (Das et al., 2009; Potier et al., 2007)</span>
+              <span><strong>Neovascularization:</strong> ~15 days, thickness-dependent (Nazeer et al., 2021)</span>
+              <span><strong>Inosculation:</strong> <4 days, thickness-independent (Tremblay et al., 2005)</span>
+              <span><strong>MT boost:</strong> 1.5–2× ATP production (Ramirez-Barbieri et al., 2019)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Time-Course Viability -->
+    <section class="calc-section" id="viability-section">
+      <div class="section-header">
+        <div class="section-number">04</div>
+        <div>
+          <h2>Depth-Resolved Viability Timeline</h2>
+          <p class="section-desc">Simulate cell viability over time at different construct depths with and without mitochondrial transplantation. Models MT benefit decay and re-dosing strategies.</p>
+        </div>
+      </div>
+
+      <div class="section-body dual-panel">
+        <div class="params-panel">
+          <h3>Simulation Parameters</h3>
+
+          <div class="param-group">
+            <label for="construct-thickness">
+              Construct Thickness
+              <span class="param-unit">μm</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="construct-thickness" min="100" max="5000" step="50" value="1000">
+              <span class="slider-value" id="construct-thickness-val">1000</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label for="viability-threshold">
+              ATP Viability Threshold
+              <span class="param-unit">% of demand</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="viability-threshold" min="10" max="80" step="5" value="30">
+              <span class="slider-value" id="viability-threshold-val">30%</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">Necrosis: &lt;20%</span>
+              <span class="context-tag">Stress state: 20–50%</span>
+              <span class="context-tag">Normal function: &gt;50%</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label for="mt-decay-halflife">
+              MT Benefit Half-life
+              <span class="param-unit">days</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="mt-decay-halflife" min="1" max="30" step="1" value="5">
+              <span class="slider-value" id="mt-decay-halflife-val">5</span>
+            </div>
+            <div class="param-context">
+              <span class="context-tag">Literature: 2–7 days</span>
+              <span class="context-tag">Optimistic: 10–14 days</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label for="re-dose-interval">
+              Re-dose Interval
+              <span class="param-unit">days (0 = single dose)</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="re-dose-interval" min="0" max="14" step="1" value="0">
+              <span class="slider-value" id="re-dose-interval-val">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-panel">
+          <h3>Cell Viability Over Time</h3>
+          <div class="chart-container tall-chart">
+            <canvas id="viability-chart"></canvas>
+          </div>
+          <div class="result-cards">
+            <div class="result-card" id="days-viable-result">
+              <div class="result-icon">📅</div>
+              <div class="result-label">Days Viable (center)</div>
+              <div class="result-value" id="days-viable-val">—</div>
+              <div class="result-sub" id="days-viable-sub"></div>
+            </div>
+            <div class="result-card" id="target-met-result">
+              <div class="result-icon">🎯</div>
+              <div class="result-label">Meets 15-day Target?</div>
+              <div class="result-value" id="target-met-val">—</div>
+              <div class="result-sub" id="target-met-sub"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Summary & Verdict -->
+    <section class="calc-section" id="verdict-section">
+      <div class="section-header">
+        <div class="section-number">05</div>
+        <div>
+          <h2>Mathematical Verdict</h2>
+          <p class="section-desc">Based on the parameters you've set, here's the bottom-line assessment of mitochondrial transplantation feasibility.</p>
+        </div>
+      </div>
+
+      <div class="section-body">
+        <div class="verdict-container" id="verdict-container">
+          <div class="verdict-header" id="verdict-header">
+            <!-- Dynamically filled -->
+          </div>
+          <div class="verdict-body" id="verdict-body">
+            <!-- Dynamically filled -->
+          </div>
+          <div class="verdict-recommendations" id="verdict-recommendations">
+            <!-- Dynamically filled -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Equation Reference -->
+    <section class="calc-section" id="equations-section">
+      <div class="section-header">
+        <div class="section-number">Ref</div>
+        <div>
+          <h2>Equations & Assumptions</h2>
+          <p class="section-desc">Mathematical framework underlying the calculations.</p>
+        </div>
+      </div>
+
+      <div class="section-body">
+        <div class="equations-grid">
+          <div class="equation-card">
+            <h4>Krogh Oxygen Penetration</h4>
+            <div class="equation">
+              L = √(2 · D · C₀ / Q)
+            </div>
+            <p>Where <code>Q = ρ · q / η</code> (volumetric consumption rate, adjusted by MT efficiency factor η)</p>
+          </div>
+          <div class="equation-card">
+            <h4>Oxygen Profile</h4>
+            <div class="equation">
+              C(x) = C₀ · (1 − x²/L²)
+            </div>
+            <p>Parabolic oxygen tension decay from surface to center of construct</p>
+          </div>
+          <div class="equation-card">
+            <h4>ATP Supply Rate</h4>
+            <div class="equation">
+              ATP_supply = (q · C_local/C₀ · P/O · η) + ATP_glycolysis
+            </div>
+            <p>Oxidative phosphorylation (scaled by local O₂) plus glycolytic contribution</p>
+          </div>
+          <div class="equation-card">
+            <h4>MT Benefit Decay</h4>
+            <div class="equation">
+              η(t) = 1 + (η₀ − 1) · e^(−0.693t / t½)
+            </div>
+            <p>Exponential decay of transplanted mitochondria benefit over time, with optional re-dosing</p>
+          </div>
+        </div>
+        <div class="assumptions-box">
+          <h4>Key Assumptions & Limitations</h4>
+          <ul>
+            <li>1D planar geometry (slab); real constructs are 3D with complex geometries</li>
+            <li>Steady-state diffusion; no convective transport or perfusion channels</li>
+            <li>Homogeneous cell distribution and constant consumption rate (no Michaelis-Menten adaptation)</li>
+            <li>MT efficiency boost modeled as reduction in per-cell O₂ demand (more ATP per O₂ consumed)</li>
+            <li>Glycolytic compensation assumed constant regardless of oxygen availability</li>
+            <li>P/O ratio improvement from MT applied uniformly to all cells</li>
+            <li>No nutrient limitations other than oxygen (glucose assumed abundant)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer">
+    <p>Built for evaluating mitochondrial transplantation feasibility in tissue engineering · <span class="mono">v1.0</span></p>
+    <p class="footer-note">Based on Krogh diffusion model · Literature-derived parameter ranges · For research discussion purposes</p>
+  </footer>
+
+  <script src="calculator.js"></script>
+</body>
+</html>
