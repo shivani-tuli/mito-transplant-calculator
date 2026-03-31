@@ -8,10 +8,10 @@
    ═══════════════════════════════════════════════════════════ */
 
 // ── Chart.js Global Config ────────────────────────────────
-Chart.defaults.color = '#4e4e5e';
-Chart.defaults.font.family = "'JetBrains Mono', 'Inter', monospace";
+Chart.defaults.color = '#6b7a94';
+Chart.defaults.font.family = "'JetBrains Mono', monospace";
 Chart.defaults.font.size = 10;
-Chart.defaults.plugins.legend.labels.padding = 14;
+Chart.defaults.plugins.legend.labels.padding = 12;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
 Chart.defaults.plugins.legend.labels.pointStyleWidth = 10;
 
@@ -198,18 +198,18 @@ function createKroghChart() {
         {
           label: 'Baseline (no MT)',
           data: [],
-          borderColor: 'rgba(255, 255, 255, 0.3)',
-          backgroundColor: 'rgba(255, 255, 255, 0.02)',
+          borderColor: '#f87171',
+          backgroundColor: 'rgba(248, 113, 113, 0.06)',
           fill: true,
           tension: 0.3,
           pointRadius: 0,
-          borderWidth: 1.5,
+          borderWidth: 2,
         },
         {
           label: 'With Mito-Transplant',
           data: [],
-          borderColor: 'rgba(255, 255, 255, 0.8)',
-          backgroundColor: 'rgba(255, 255, 255, 0.04)',
+          borderColor: '#2dd4bf',
+          backgroundColor: 'rgba(45, 212, 191, 0.08)',
           fill: true,
           tension: 0.3,
           pointRadius: 0,
@@ -218,10 +218,10 @@ function createKroghChart() {
         {
           label: 'Hypoxia Threshold',
           data: [],
-          borderColor: 'rgba(255, 255, 255, 0.15)',
-          borderDash: [6, 4],
+          borderColor: '#fbbf24',
+          borderDash: [5, 3],
           pointRadius: 0,
-          borderWidth: 1,
+          borderWidth: 1.5,
           fill: false,
         }
       ]
@@ -238,7 +238,7 @@ function createKroghChart() {
         },
         y: {
           title: { display: true, text: 'O₂ Concentration (mol/m³)', color: '#4e4e5e', font: { size: 10, family: "'JetBrains Mono', monospace" } },
-          grid: { color: 'rgba(255, 255, 255, 0.04)' },
+          grid: { color: 'rgba(255, 255, 255, 0.05)', drawBorder: false },
           min: 0,
         }
       },
@@ -265,37 +265,37 @@ function createAtpChart() {
           label: 'Baseline',
           data: [0, 0, 0, 0],
           backgroundColor: [
-            'rgba(255, 255, 255, 0.15)',
-            'rgba(255, 255, 255, 0.08)',
-            'rgba(255, 255, 255, 0.25)',
-            'rgba(255, 255, 255, 0.06)',
+            'rgba(248, 113, 113, 0.5)',
+            'rgba(248, 113, 113, 0.25)',
+            'rgba(248, 113, 113, 0.65)',
+            'rgba(107, 122, 148, 0.2)',
           ],
           borderColor: [
-            'rgba(255, 255, 255, 0.25)',
-            'rgba(255, 255, 255, 0.12)',
-            'rgba(255, 255, 255, 0.35)',
-            'rgba(255, 255, 255, 0.1)',
+            '#f87171',
+            'rgba(248, 113, 113, 0.5)',
+            '#f87171',
+            'rgba(107, 122, 148, 0.4)',
           ],
           borderWidth: 1,
-          borderRadius: 0,
+          borderRadius: 3,
         },
         {
           label: 'With MT',
           data: [0, 0, 0, 0],
           backgroundColor: [
-            'rgba(255, 255, 255, 0.4)',
-            'rgba(255, 255, 255, 0.2)',
-            'rgba(255, 255, 255, 0.55)',
-            'rgba(255, 255, 255, 0.06)',
+            'rgba(45, 212, 191, 0.5)',
+            'rgba(45, 212, 191, 0.25)',
+            'rgba(45, 212, 191, 0.65)',
+            'rgba(107, 122, 148, 0.2)',
           ],
           borderColor: [
-            'rgba(255, 255, 255, 0.5)',
-            'rgba(255, 255, 255, 0.3)',
-            'rgba(255, 255, 255, 0.7)',
-            'rgba(255, 255, 255, 0.1)',
+            '#2dd4bf',
+            'rgba(45, 212, 191, 0.5)',
+            '#2dd4bf',
+            'rgba(107, 122, 148, 0.4)',
           ],
           borderWidth: 1,
-          borderRadius: 0,
+          borderRadius: 3,
         }
       ]
     },
@@ -334,18 +334,18 @@ function createBuyingTimeChart() {
         {
           label: 'Baseline viability',
           data: [],
-          borderColor: 'rgba(255, 255, 255, 0.3)',
-          backgroundColor: 'rgba(255, 255, 255, 0.02)',
+          borderColor: '#f87171',
+          backgroundColor: 'rgba(248, 113, 113, 0.05)',
           fill: true,
           tension: 0.4,
           pointRadius: 0,
-          borderWidth: 1.5,
+          borderWidth: 2,
         },
         {
           label: 'With mito transplant',
           data: [],
-          borderColor: 'rgba(255, 255, 255, 0.8)',
-          backgroundColor: 'rgba(255, 255, 255, 0.04)',
+          borderColor: '#2dd4bf',
+          backgroundColor: 'rgba(45, 212, 191, 0.06)',
           fill: true,
           tension: 0.4,
           pointRadius: 0,
@@ -354,13 +354,13 @@ function createBuyingTimeChart() {
         {
           label: 'Vascularization progress',
           data: [],
-          borderColor: 'rgba(255, 255, 255, 0.5)',
-          backgroundColor: 'rgba(255, 255, 255, 0.02)',
+          borderColor: '#60a5fa',
+          backgroundColor: 'rgba(96, 165, 250, 0.05)',
           fill: true,
           tension: 0.3,
           pointRadius: 0,
-          borderWidth: 1.5,
-          borderDash: [6, 3],
+          borderWidth: 2,
+          borderDash: [5, 3],
         }
       ]
     },
@@ -408,34 +408,34 @@ function createViabilityChart() {
         {
           label: 'Baseline @ Surface',
           data: [],
-          borderColor: 'rgba(255, 255, 255, 0.2)',
+          borderColor: 'rgba(248, 113, 113, 0.35)',
           borderDash: [4, 3],
-          pointRadius: 0,
-          borderWidth: 1,
-          fill: false,
-        },
-        {
-          label: 'Baseline @ Center',
-          data: [],
-          borderColor: 'rgba(255, 255, 255, 0.35)',
           pointRadius: 0,
           borderWidth: 1.5,
           fill: false,
         },
         {
+          label: 'Baseline @ Center',
+          data: [],
+          borderColor: '#f87171',
+          pointRadius: 0,
+          borderWidth: 2,
+          fill: false,
+        },
+        {
           label: 'MT @ Surface',
           data: [],
-          borderColor: 'rgba(255, 255, 255, 0.5)',
+          borderColor: 'rgba(45, 212, 191, 0.35)',
           borderDash: [4, 3],
           pointRadius: 0,
-          borderWidth: 1,
+          borderWidth: 1.5,
           fill: false,
         },
         {
           label: 'MT @ Center',
           data: [],
-          borderColor: 'rgba(255, 255, 255, 0.85)',
-          backgroundColor: 'rgba(255, 255, 255, 0.04)',
+          borderColor: '#2dd4bf',
+          backgroundColor: 'rgba(45, 212, 191, 0.06)',
           pointRadius: 0,
           borderWidth: 2,
           fill: true,
@@ -443,10 +443,10 @@ function createViabilityChart() {
         {
           label: 'Viability Threshold',
           data: [],
-          borderColor: 'rgba(255, 255, 255, 0.12)',
-          borderDash: [6, 4],
+          borderColor: 'rgba(251, 191, 36, 0.5)',
+          borderDash: [5, 3],
           pointRadius: 0,
-          borderWidth: 1,
+          borderWidth: 1.5,
           fill: false,
         },
       ]
