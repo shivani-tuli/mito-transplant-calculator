@@ -8,7 +8,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 // ── Chart.js Global Config ────────────────────────────────
-Chart.defaults.color = '#3a3a3a';
+Chart.defaults.color = '#606060';
 Chart.defaults.font.family = "'JetBrains Mono', monospace";
 Chart.defaults.font.size = 10;
 Chart.defaults.plugins.legend.labels.padding = 12;
