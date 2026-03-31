@@ -8,12 +8,12 @@
    ═══════════════════════════════════════════════════════════ */
 
 // ── Chart.js Global Config ────────────────────────────────
-Chart.defaults.color = '#94a3c8';
-Chart.defaults.font.family = "'Inter', sans-serif";
-Chart.defaults.font.size = 11;
-Chart.defaults.plugins.legend.labels.padding = 16;
+Chart.defaults.color = '#4e4e5e';
+Chart.defaults.font.family = "'JetBrains Mono', 'Inter', monospace";
+Chart.defaults.font.size = 10;
+Chart.defaults.plugins.legend.labels.padding = 14;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
-Chart.defaults.plugins.legend.labels.pointStyleWidth = 12;
+Chart.defaults.plugins.legend.labels.pointStyleWidth = 10;
 
 // ── Cell Type Presets (matching metabolic_demand_calculator.html) ──
 const cellTypeData = {
@@ -198,30 +198,30 @@ function createKroghChart() {
         {
           label: 'Baseline (no MT)',
           data: [],
-          borderColor: 'rgba(251, 113, 133, 0.8)',
-          backgroundColor: 'rgba(251, 113, 133, 0.05)',
+          borderColor: 'rgba(255, 255, 255, 0.3)',
+          backgroundColor: 'rgba(255, 255, 255, 0.02)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 0,
+          borderWidth: 1.5,
+        },
+        {
+          label: 'With Mito-Transplant',
+          data: [],
+          borderColor: 'rgba(255, 255, 255, 0.8)',
+          backgroundColor: 'rgba(255, 255, 255, 0.04)',
           fill: true,
           tension: 0.3,
           pointRadius: 0,
           borderWidth: 2,
         },
         {
-          label: 'With Mito-Transplant',
-          data: [],
-          borderColor: 'rgba(34, 211, 238, 0.9)',
-          backgroundColor: 'rgba(34, 211, 238, 0.08)',
-          fill: true,
-          tension: 0.3,
-          pointRadius: 0,
-          borderWidth: 2.5,
-        },
-        {
           label: 'Hypoxia Threshold',
           data: [],
-          borderColor: 'rgba(251, 191, 36, 0.5)',
+          borderColor: 'rgba(255, 255, 255, 0.15)',
           borderDash: [6, 4],
           pointRadius: 0,
-          borderWidth: 1.5,
+          borderWidth: 1,
           fill: false,
         }
       ]
@@ -232,13 +232,13 @@ function createKroghChart() {
       interaction: { mode: 'index', intersect: false },
       scales: {
         x: {
-          title: { display: true, text: 'Depth from surface (μm)', color: '#5b6b8a', font: { size: 11 } },
-          grid: { color: 'rgba(148, 163, 200, 0.06)' },
+          title: { display: true, text: 'Depth from surface (μm)', color: '#4e4e5e', font: { size: 10, family: "'JetBrains Mono', monospace" } },
+          grid: { color: 'rgba(255, 255, 255, 0.04)' },
           ticks: { maxTicksLimit: 10 },
         },
         y: {
-          title: { display: true, text: 'O₂ Concentration (mol/m³)', color: '#5b6b8a', font: { size: 11 } },
-          grid: { color: 'rgba(148, 163, 200, 0.06)' },
+          title: { display: true, text: 'O₂ Concentration (mol/m³)', color: '#4e4e5e', font: { size: 10, family: "'JetBrains Mono', monospace" } },
+          grid: { color: 'rgba(255, 255, 255, 0.04)' },
           min: 0,
         }
       },
@@ -265,37 +265,37 @@ function createAtpChart() {
           label: 'Baseline',
           data: [0, 0, 0, 0],
           backgroundColor: [
-            'rgba(251, 113, 133, 0.6)',
-            'rgba(251, 113, 133, 0.3)',
-            'rgba(251, 113, 133, 0.8)',
-            'rgba(148, 163, 200, 0.4)',
+            'rgba(255, 255, 255, 0.15)',
+            'rgba(255, 255, 255, 0.08)',
+            'rgba(255, 255, 255, 0.25)',
+            'rgba(255, 255, 255, 0.06)',
           ],
           borderColor: [
-            'rgba(251, 113, 133, 0.8)',
-            'rgba(251, 113, 133, 0.5)',
-            'rgba(251, 113, 133, 1)',
-            'rgba(148, 163, 200, 0.6)',
+            'rgba(255, 255, 255, 0.25)',
+            'rgba(255, 255, 255, 0.12)',
+            'rgba(255, 255, 255, 0.35)',
+            'rgba(255, 255, 255, 0.1)',
           ],
           borderWidth: 1,
-          borderRadius: 6,
+          borderRadius: 0,
         },
         {
           label: 'With MT',
           data: [0, 0, 0, 0],
           backgroundColor: [
-            'rgba(34, 211, 238, 0.6)',
-            'rgba(34, 211, 238, 0.3)',
-            'rgba(34, 211, 238, 0.8)',
-            'rgba(148, 163, 200, 0.4)',
+            'rgba(255, 255, 255, 0.4)',
+            'rgba(255, 255, 255, 0.2)',
+            'rgba(255, 255, 255, 0.55)',
+            'rgba(255, 255, 255, 0.06)',
           ],
           borderColor: [
-            'rgba(34, 211, 238, 0.8)',
-            'rgba(34, 211, 238, 0.5)',
-            'rgba(34, 211, 238, 1)',
-            'rgba(148, 163, 200, 0.6)',
+            'rgba(255, 255, 255, 0.5)',
+            'rgba(255, 255, 255, 0.3)',
+            'rgba(255, 255, 255, 0.7)',
+            'rgba(255, 255, 255, 0.1)',
           ],
           borderWidth: 1,
-          borderRadius: 6,
+          borderRadius: 0,
         }
       ]
     },
@@ -304,11 +304,11 @@ function createAtpChart() {
       maintainAspectRatio: false,
       scales: {
         x: {
-          grid: { color: 'rgba(148, 163, 200, 0.06)' },
+          grid: { color: 'rgba(255, 255, 255, 0.04)' },
         },
         y: {
-          title: { display: true, text: 'μmol ATP/min/10⁶ cells', color: '#5b6b8a', font: { size: 11 } },
-          grid: { color: 'rgba(148, 163, 200, 0.06)' },
+          title: { display: true, text: 'μmol ATP/min/10⁶ cells', color: '#4e4e5e', font: { size: 10, family: "'JetBrains Mono', monospace" } },
+          grid: { color: 'rgba(255, 255, 255, 0.04)' },
           min: 0,
         }
       },
@@ -334,32 +334,32 @@ function createBuyingTimeChart() {
         {
           label: 'Baseline viability',
           data: [],
-          borderColor: 'rgba(251, 113, 133, 0.85)',
-          backgroundColor: 'rgba(251, 113, 133, 0.06)',
+          borderColor: 'rgba(255, 255, 255, 0.3)',
+          backgroundColor: 'rgba(255, 255, 255, 0.02)',
           fill: true,
           tension: 0.4,
           pointRadius: 0,
-          borderWidth: 2.5,
+          borderWidth: 1.5,
         },
         {
           label: 'With mito transplant',
           data: [],
-          borderColor: 'rgba(34, 211, 238, 0.9)',
-          backgroundColor: 'rgba(34, 211, 238, 0.06)',
+          borderColor: 'rgba(255, 255, 255, 0.8)',
+          backgroundColor: 'rgba(255, 255, 255, 0.04)',
           fill: true,
           tension: 0.4,
           pointRadius: 0,
-          borderWidth: 2.5,
+          borderWidth: 2,
         },
         {
           label: 'Vascularization progress',
           data: [],
-          borderColor: 'rgba(59, 130, 246, 0.85)',
-          backgroundColor: 'rgba(59, 130, 246, 0.06)',
+          borderColor: 'rgba(255, 255, 255, 0.5)',
+          backgroundColor: 'rgba(255, 255, 255, 0.02)',
           fill: true,
           tension: 0.3,
           pointRadius: 0,
-          borderWidth: 2.5,
+          borderWidth: 1.5,
           borderDash: [6, 3],
         }
       ]
@@ -370,8 +370,8 @@ function createBuyingTimeChart() {
       interaction: { mode: 'index', intersect: false },
       scales: {
         x: {
-          title: { display: true, text: 'Days post-implantation', color: '#5b6b8a', font: { size: 11 } },
-          grid: { color: 'rgba(148, 163, 200, 0.06)' },
+          title: { display: true, text: 'Days post-implantation', color: '#4e4e5e', font: { size: 10, family: "'JetBrains Mono', monospace" } },
+          grid: { color: 'rgba(255, 255, 255, 0.04)' },
           ticks: {
             maxTicksLimit: 12,
             callback: function(val, idx) {
@@ -382,8 +382,8 @@ function createBuyingTimeChart() {
         },
         y: {
           min: 0, max: 100,
-          title: { display: true, text: '% viability / vascularization', color: '#5b6b8a', font: { size: 11 } },
-          grid: { color: 'rgba(148, 163, 200, 0.06)' },
+          title: { display: true, text: '% viability / vascularization', color: '#4e4e5e', font: { size: 10, family: "'JetBrains Mono', monospace" } },
+          grid: { color: 'rgba(255, 255, 255, 0.04)' },
         }
       },
       plugins: {
@@ -408,45 +408,45 @@ function createViabilityChart() {
         {
           label: 'Baseline @ Surface',
           data: [],
-          borderColor: 'rgba(251, 113, 133, 0.4)',
+          borderColor: 'rgba(255, 255, 255, 0.2)',
           borderDash: [4, 3],
           pointRadius: 0,
-          borderWidth: 1.5,
+          borderWidth: 1,
           fill: false,
         },
         {
           label: 'Baseline @ Center',
           data: [],
-          borderColor: 'rgba(251, 113, 133, 0.8)',
+          borderColor: 'rgba(255, 255, 255, 0.35)',
           pointRadius: 0,
-          borderWidth: 2,
+          borderWidth: 1.5,
           fill: false,
         },
         {
           label: 'MT @ Surface',
           data: [],
-          borderColor: 'rgba(34, 211, 238, 0.4)',
+          borderColor: 'rgba(255, 255, 255, 0.5)',
           borderDash: [4, 3],
           pointRadius: 0,
-          borderWidth: 1.5,
+          borderWidth: 1,
           fill: false,
         },
         {
           label: 'MT @ Center',
           data: [],
-          borderColor: 'rgba(34, 211, 238, 0.9)',
-          backgroundColor: 'rgba(34, 211, 238, 0.05)',
+          borderColor: 'rgba(255, 255, 255, 0.85)',
+          backgroundColor: 'rgba(255, 255, 255, 0.04)',
           pointRadius: 0,
-          borderWidth: 2.5,
+          borderWidth: 2,
           fill: true,
         },
         {
           label: 'Viability Threshold',
           data: [],
-          borderColor: 'rgba(251, 191, 36, 0.4)',
+          borderColor: 'rgba(255, 255, 255, 0.12)',
           borderDash: [6, 4],
           pointRadius: 0,
-          borderWidth: 1.5,
+          borderWidth: 1,
           fill: false,
         },
       ]
@@ -457,12 +457,12 @@ function createViabilityChart() {
       interaction: { mode: 'index', intersect: false },
       scales: {
         x: {
-          title: { display: true, text: 'Days', color: '#5b6b8a', font: { size: 11 } },
-          grid: { color: 'rgba(148, 163, 200, 0.06)' },
+          title: { display: true, text: 'Days', color: '#4e4e5e', font: { size: 10, family: "'JetBrains Mono', monospace" } },
+          grid: { color: 'rgba(255, 255, 255, 0.04)' },
         },
         y: {
-          title: { display: true, text: 'ATP Supply / Demand (%)', color: '#5b6b8a', font: { size: 11 } },
-          grid: { color: 'rgba(148, 163, 200, 0.06)' },
+          title: { display: true, text: 'ATP Supply / Demand (%)', color: '#4e4e5e', font: { size: 10, family: "'JetBrains Mono', monospace" } },
+          grid: { color: 'rgba(255, 255, 255, 0.04)' },
           min: 0,
           max: 150,
         }
@@ -908,6 +908,18 @@ function init() {
   createBuyingTimeChart();
   createViabilityChart();
   updateAll();
+
+  // Scroll reveal for sections
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        sectionObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.calc-section').forEach(el => sectionObserver.observe(el));
 
   // Cell type dropdown
   sliders.cellType.addEventListener('change', handleCellTypeChange);
